@@ -2,7 +2,7 @@
 
 ## Goal
 
-Preserve the useful parts of GrokSearch without preserving its hard dependency on Grok, Tavily, or any fixed vendor.
+Preserve the useful parts of backend-bound search workflows without preserving any hard dependency on a specific API vendor, crawler service, or hosted search backend.
 
 Keep the method. Replace the backend.
 Use `hellosearch` as a pure skill layered on top of host-native search capability.
@@ -53,7 +53,7 @@ Choose backends in this order:
 
 Do not require extra backend setup just to make the skill usable.
 
-## What to keep from GrokSearch
+## What to keep from earlier search workflows
 
 - Query framing and multi-round planning
 - Source extraction, caching, and normalization
@@ -61,12 +61,12 @@ Do not require extra backend setup just to make the skill usable.
 - Retry, timeout, and response parsing discipline
 - Search-first, fetch-second, verify-third workflow
 
-## What to remove from GrokSearch
+## What to remove from backend-bound implementations
 
-- Mandatory `GROK_API_URL` and `GROK_API_KEY`
-- Mandatory Grok-specific provider construction
+- Mandatory vendor-specific API URLs and API keys
+- Mandatory provider-specific client construction
 - Assumption that one `chat/completions` endpoint implies real web access
-- Assumption that Tavily or Firecrawl always exist
+- Assumption that a dedicated crawler or search SaaS always exists
 - Assumption that the skill should ship with extra transport or backend layers
 
 ## Minimum viable implementation

@@ -7,7 +7,7 @@ description: Host-agnostic real-web research, source verification, and evidence 
 
 ## Overview
 
-Use the current host's real web capability to run disciplined search workflows without assuming Grok, Tavily, or any fixed vendor backend.
+Use the current host's real web capability to run disciplined search workflows without assuming any fixed vendor backend or third-party search service.
 
 Treat `hellosearch` as a pure skill. It should guide and structure how the host searches the web, not introduce extra integration layers or backend requirements.
 
