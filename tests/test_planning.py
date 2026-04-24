@@ -25,6 +25,17 @@ class PlanningTests(unittest.TestCase):
         self.assertIn("freshness_anchor=2026-04-24", plan.exact_time_context)
         self.assertIn("official documentation page", plan.fetch_targets)
 
+    def test_build_search_plan_adds_complexity_and_sub_queries(self):
+        plan = build_search_plan("Use hellosearch to compare these three API products and verify the latest pricing", today=date(2026, 4, 24))
+        self.assertGreaterEqual(plan.complexity.level, 2)
+        self.assertGreaterEqual(len(plan.sub_queries), 3)
+        self.assertEqual(plan.strategy.approach, "broad_first")
+
+    def test_build_search_plan_adds_map_target_for_site_inventory(self):
+        plan = build_search_plan("Use hellosearch to map all docs pages for site:docs.example.com and find the current API limits", today=date(2026, 4, 24))
+        self.assertIn("docs.example.com", plan.map_targets)
+        self.assertTrue(any(item.tool == "map_site" for item in plan.tool_selection))
+
 
 if __name__ == "__main__":
     unittest.main()

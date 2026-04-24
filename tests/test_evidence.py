@@ -8,7 +8,7 @@ SCRIPT_DIR = Path(__file__).resolve().parents[1] / "scripts"
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from hellosearch_runtime.evidence import canonicalize_url, rank_sources
+from hellosearch_runtime.evidence import canonicalize_url, rank_sources, split_answer_and_normalize_sources
 
 
 class EvidenceTests(unittest.TestCase):
@@ -35,6 +35,14 @@ class EvidenceTests(unittest.TestCase):
             ],
         )
         self.assertEqual(ranked[0].source.url, "https://docs.example.com/responses")
+
+    def test_split_answer_and_normalize_sources_from_heading_block(self):
+        answer, sources = split_answer_and_normalize_sources(
+            "Use the official docs.\n\nSources:\n- [API docs](https://docs.example.com/api?utm_source=test)\n- https://github.com/example/project"
+        )
+        self.assertEqual(answer, "Use the official docs.")
+        self.assertEqual(len(sources), 2)
+        self.assertEqual(sources[0].url, "https://docs.example.com/api")
 
 
 if __name__ == "__main__":

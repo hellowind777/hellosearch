@@ -6,6 +6,7 @@ from email.utils import parsedate_to_datetime
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from .models import SourceRecord
+from .source_parsing import extract_sources_from_text, merge_raw_sources, split_answer_and_sources
 
 
 TRACKING_PREFIXES = ("utm_", "spm", "fbclid", "gclid")
@@ -45,7 +46,6 @@ def normalize_sources(raw_sources: list[dict | SourceRecord]) -> list[SourceReco
 
     normalized: list[SourceRecord] = []
     seen: set[str] = set()
-
     for item in raw_sources:
         source = item if isinstance(item, SourceRecord) else SourceRecord(
             title=(item or {}).get("title", ""),
@@ -70,6 +70,35 @@ def normalize_sources(raw_sources: list[dict | SourceRecord]) -> list[SourceReco
             )
         )
     return normalized
+
+
+def merge_sources(*source_lists: list[dict | SourceRecord]) -> list[SourceRecord]:
+    """Merge mixed raw source lists into one normalized source list."""
+
+    grouped_sources: list[list[dict]] = []
+    for sources in source_lists:
+        group: list[dict] = []
+        for item in sources or []:
+            if isinstance(item, SourceRecord):
+                group.append(item.to_dict())
+            else:
+                group.append(item)
+        if group:
+            grouped_sources.append(group)
+    return normalize_sources(merge_raw_sources(*grouped_sources))
+
+
+def extract_sources(text: str) -> list[SourceRecord]:
+    """Extract and normalize sources from free-form answer text."""
+
+    return normalize_sources(extract_sources_from_text(text))
+
+
+def split_answer_and_normalize_sources(text: str) -> tuple[str, list[SourceRecord]]:
+    """Split mixed answer text and return normalized sources."""
+
+    answer, raw_sources = split_answer_and_sources(text)
+    return answer, normalize_sources(raw_sources)
 
 
 def _domain_bonus(url: str, preferred_domains: tuple[str, ...]) -> tuple[float, list[str]]:
@@ -135,7 +164,6 @@ def score_source(query: str, source: SourceRecord, preferred_domains: tuple[str,
     reasons.extend(domain_reasons)
     reasons.extend(text_reasons)
     reasons.extend(date_reasons)
-
     if source.provider:
         reasons.append(f"provider=`{source.provider}`")
     return RankedSource(source=source, score=score, reasons=tuple(reasons))

@@ -6,7 +6,13 @@ from .adapters import (
     RuntimeAdapter,
 )
 from .detection import detect_runtime_environment
-from .evidence import RankedSource, rank_sources
+from .evidence import (
+    RankedSource,
+    extract_sources,
+    merge_sources,
+    rank_sources,
+    split_answer_and_normalize_sources,
+)
 from .models import (
     BackendKind,
     CapabilityStatus,
@@ -20,9 +26,20 @@ from .models import (
     SearchResponse,
     SourceRecord,
 )
-from .planning import SearchPlan, SearchQuery, SearchRound, build_search_plan
+from .planning import build_search_plan
+from .planning_types import (
+    ExecutionPlan,
+    SearchComplexity,
+    SearchIntent,
+    SearchPlan,
+    SearchQuery,
+    SearchRound,
+    SearchStrategy,
+    SearchSubQuery,
+    ToolSelection,
+)
 from .router import build_adapters, choose_route
-from .workflow import build_workflow_bundle, infer_fetch_need
+from .workflow import build_workflow_bundle, infer_fetch_need, infer_map_need
 
 __all__ = [
     "BackendKind",
@@ -31,6 +48,7 @@ __all__ = [
     "CodexNativeAdapter",
     "DetectionReport",
     "DetectionSignal",
+    "ExecutionPlan",
     "FetchResponse",
     "HostCapabilities",
     "HostKind",
@@ -40,16 +58,25 @@ __all__ = [
     "RankedSource",
     "RouteDecision",
     "RuntimeAdapter",
+    "SearchComplexity",
+    "SearchIntent",
     "SearchPlan",
     "SearchQuery",
     "SearchRound",
     "SearchResponse",
+    "SearchStrategy",
+    "SearchSubQuery",
     "SourceRecord",
+    "ToolSelection",
     "build_adapters",
     "build_search_plan",
     "build_workflow_bundle",
     "choose_route",
     "detect_runtime_environment",
+    "extract_sources",
     "infer_fetch_need",
+    "infer_map_need",
+    "merge_sources",
     "rank_sources",
+    "split_answer_and_normalize_sources",
 ]

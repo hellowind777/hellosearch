@@ -23,6 +23,7 @@ Lower-ranked sources can support context, but they should not override stronger 
 
 - For simple lookups, one strong primary source can be enough.
 - For time-sensitive, high-stakes, or comparative tasks, use multiple independent sources.
+- For documentation-wide tasks, map the relevant site before deciding which pages to open.
 - When sources conflict, explain the conflict and identify the most authoritative source.
 
 ## Answer discipline
@@ -35,6 +36,7 @@ Lower-ranked sources can support context, but they should not override stronger 
 ## Common failure modes
 
 - Relying on snippets without opening the page
+- Leaving citations buried inside mixed answer text instead of extracting and reviewing them
 - Quoting outdated summaries instead of current official docs
 - Mixing old and new product versions
 - Treating blog reposts as primary evidence

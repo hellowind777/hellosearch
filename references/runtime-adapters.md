@@ -56,9 +56,10 @@ Do not require extra backend setup just to make the skill usable.
 ## What to keep from earlier search workflows
 
 - Query framing and multi-round planning
-- Source extraction, caching, and normalization
+- Source extraction and normalization
 - Date awareness and exact-time answering
-- Retry, timeout, and response parsing discipline
+- Response parsing discipline
+- Optional site-mapping before deep page fetches
 - Search-first, fetch-second, verify-third workflow
 
 ## What to remove from backend-bound implementations
@@ -77,4 +78,5 @@ Build the first usable runtime with:
 2. A native-search adapter
 3. A native-fetch adapter
 4. A normalized source model
-5. A graceful "no live web available" path
+5. A citation-block parser for mixed answer text
+6. A graceful "no live web available" path

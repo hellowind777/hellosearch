@@ -6,6 +6,7 @@ Use this order unless the user gives a stricter requirement:
 
 1. Current host native web search
 2. Current host native page open or fetch
+3. Current host native site mapping when the task explicitly needs site-wide coverage
 
 Do not invent a backend that is not actually available in the current session.
 Do not depend on extra search infrastructure for this skill to be usable.
@@ -26,6 +27,7 @@ Do not depend on extra search infrastructure for this skill to be usable.
 
 - Prefer the current configured native web provider or built-in web tool.
 - Use provider-native search when it already returns source metadata and fetch capability.
+- Use site mapping when the task needs a full docs inventory and the current provider exposes it.
 
 ## No live-web capability
 

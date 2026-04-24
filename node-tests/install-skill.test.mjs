@@ -4,7 +4,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises"
 import test from "node:test"
 import assert from "node:assert/strict"
 
-import { installSkill } from "../lib/install-skill.mjs"
+import { getInstallInfo, installSkill } from "../lib/install-skill.mjs"
 
 test("installSkill copies the skill payload into the target directory", async () => {
   const tempRoot = await mkdtemp(path.join(os.tmpdir(), "hellosearch-"))
@@ -19,4 +19,28 @@ test("installSkill copies the skill payload into the target directory", async ()
   } finally {
     await rm(tempRoot, { recursive: true, force: true })
   }
+})
+
+test("getInstallInfo resolves claude-code user scope target", () => {
+  const info = getInstallInfo({
+    host: "claude-code",
+    scope: "user",
+    homeDir: "/tmp/example-home",
+    cwd: "/workspace/project",
+  })
+
+  assert.equal(info.targetRoot, path.resolve("/tmp/example-home/.claude/skills"))
+  assert.equal(info.host, "claude-code")
+})
+
+test("getInstallInfo resolves openclaw project scope target", () => {
+  const info = getInstallInfo({
+    host: "openclaw",
+    scope: "project",
+    homeDir: "/tmp/example-home",
+    cwd: "/workspace/project",
+  })
+
+  assert.equal(info.targetRoot, path.resolve("/workspace/project/skills"))
+  assert.equal(info.host, "openclaw")
 })

@@ -38,6 +38,16 @@ def render_text(plan: dict) -> str:
         f"Query type: {plan['query_type']}",
         f"Time sensitivity: {plan['time_sensitivity']}",
     ]
+    intent = plan.get("intent", {})
+    if intent.get("ambiguities"):
+        lines.append(f"Ambiguities: {', '.join(intent['ambiguities'])}")
+    if intent.get("unverified_terms"):
+        lines.append(f"Unverified terms: {', '.join(intent['unverified_terms'])}")
+    complexity = plan.get("complexity", {})
+    if complexity:
+        lines.append(
+            f"Complexity: L{complexity['level']} | sub-queries={complexity['estimated_sub_queries']} | tool-calls={complexity['estimated_tool_calls']}"
+        )
     if plan["exact_time_context"]:
         lines.append(f"Time context: {', '.join(plan['exact_time_context'])}")
     lines.append(f"Source priorities: {', '.join(plan['source_priorities'])}")
@@ -45,6 +55,8 @@ def render_text(plan: dict) -> str:
         lines.append(f"Round {item['round']}: {item['objective']}")
         for query in item["queries"]:
             lines.append(f"- {query['text']} [{query['goal']}]")
+    if plan.get("map_targets"):
+        lines.append(f"Map targets: {', '.join(plan['map_targets'])}")
     return "\n".join(lines)
 
 
