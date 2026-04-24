@@ -5,7 +5,7 @@
   "type": "module",
   "private": false,
   "bin": {
-    "hellosearch": "./bin/hellosearch.mjs"
+    "hellosearch": "bin/hellosearch.mjs"
   },
   "files": [
     "SKILL.md",
@@ -16,7 +16,7 @@
     "lib"
   ],
   "scripts": {
-    "test:python": "python -m unittest discover -s \"./tests\" -v",
+    "test:python": "python -B -m unittest discover -s \"./tests\" -v",
     "test:node": "node --test \"node-tests/**/*.test.mjs\"",
     "test": "npm run test:node && npm run test:python",
     "pack:dry": "npm pack --dry-run"
