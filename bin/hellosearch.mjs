@@ -8,8 +8,8 @@ function printUsage() {
   console.log(
     [
       "Usage:",
-      "  hellosearch-skill install [--target <path>] [--force]",
-      "  hellosearch-skill info",
+      "  hellosearch install [--target <path>] [--force]",
+      "  hellosearch info",
     ].join("\n"),
   )
 }

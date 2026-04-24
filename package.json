@@ -1,11 +1,11 @@
 {
-  "name": "hellosearch-skill",
+  "name": "hellosearch",
   "version": "0.1.0",
   "description": "纯 skill 形态的结构化真实搜索工作流分发包，适用于 Codex、Claude Code 和 OpenClaw。",
   "type": "module",
   "private": false,
   "bin": {
-    "hellosearch-skill": "./bin/hellosearch-skill.mjs"
+    "hellosearch": "./bin/hellosearch.mjs"
   },
   "files": [
     "SKILL.md",

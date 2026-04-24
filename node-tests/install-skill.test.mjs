@@ -7,7 +7,7 @@ import assert from "node:assert/strict"
 import { installSkill } from "../lib/install-skill.mjs"
 
 test("installSkill copies the skill payload into the target directory", async () => {
-  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "hellosearch-skill-"))
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), "hellosearch-"))
 
   try {
     const result = await installSkill({ targetRoot: tempRoot })
