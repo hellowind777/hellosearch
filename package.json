@@ -1,0 +1,45 @@
+{
+  "name": "hellosearch-skill",
+  "version": "0.1.0",
+  "description": "纯 skill 形态的结构化真实搜索工作流分发包，适用于 Codex、Claude Code 和 OpenClaw。",
+  "type": "module",
+  "private": false,
+  "bin": {
+    "hellosearch-skill": "./bin/hellosearch-skill.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "agents",
+    "references",
+    "scripts",
+    "bin",
+    "lib"
+  ],
+  "scripts": {
+    "test:python": "python -m unittest discover -s \"./tests\" -v",
+    "test:node": "node --test \"node-tests/**/*.test.mjs\"",
+    "test": "npm run test:node && npm run test:python",
+    "pack:dry": "npm pack --dry-run"
+  },
+  "keywords": [
+    "skill",
+    "codex",
+    "claude-code",
+    "openclaw",
+    "search",
+    "workflow"
+  ],
+  "author": "hellowind",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellowind777/hellosearch.git"
+  },
+  "homepage": "https://github.com/hellowind777/hellosearch",
+  "bugs": {
+    "url": "https://github.com/hellowind777/hellosearch/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
