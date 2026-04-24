@@ -1,6 +1,6 @@
 interface:
   display_name: "HelloSearch"
-  short_description: "Structured real-web search orchestration"
-  default_prompt: "Use $hellosearch to plan, execute, and verify real-world web research with traceable sources."
+  short_description: "Real-web search, verification, and evidence synthesis"
+  default_prompt: "Use $hellosearch to plan live web research, verify current facts, and answer with traceable sources."
 policy:
   allow_implicit_invocation: true

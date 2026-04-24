@@ -1,7 +1,7 @@
 {
   "name": "hellosearch",
   "version": "0.1.0",
-  "description": "纯 skill 形态的结构化真实搜索工作流分发包，适用于 Codex、Claude Code 和 OpenClaw。",
+  "description": "基于当前环境原生搜索与页面读取能力的真实搜索 skill，用于最新信息核验、官网文档查证、来源对比与证据化整理。",
   "type": "module",
   "private": false,
   "bin": {
@@ -23,10 +23,11 @@
   },
   "keywords": [
     "skill",
-    "codex",
-    "claude-code",
-    "openclaw",
     "search",
+    "web-research",
+    "fact-verification",
+    "evidence-synthesis",
+    "official-sources",
     "workflow"
   ],
   "author": "hellowind",

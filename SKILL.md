@@ -1,6 +1,6 @@
 ---
 name: hellosearch
-description: Structured, host-agnostic web research and evidence synthesis for Codex, Claude Code, and OpenClaw. Use when a task needs live web search, recent fact verification, official-document lookup, source-backed comparisons, news or product research, or when the user explicitly says “use hellosearch” / “用 hellosearch 搜一下”; this skill relies on the current host's native search and page tools only, with no extra backend setup.
+description: Host-agnostic real-web research, source verification, and evidence synthesis using the current environment's native search and page tools. Use when a task needs live web search, latest fact checking, official-document lookup, news or product research, release-note or changelog verification, source-backed comparison, or any answer that should cite current web sources; also use when the user says “use hellosearch”, “用 hellosearch 搜”, “帮我搜一下”, “查官网确认”, or asks to verify what is true now without adding third-party APIs or backends.
 ---
 
 # HelloSearch
