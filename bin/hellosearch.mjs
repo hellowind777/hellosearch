@@ -2,15 +2,23 @@
 
 import process from "node:process"
 
-import { getInstallInfo, installSkill, runDoctor } from "../lib/install-skill.mjs"
+import { getInstallInfo, installSkill, installSkillEverywhere, runDoctor } from "../lib/install-skill.mjs"
 
 function printUsage() {
   console.log(
     [
       "Usage:",
-      "  hellosearch install [--host <auto|codex|claude-code|openclaw>] [--scope <user|project>] [--target <path>] [--force]",
-      "  hellosearch info [--host <auto|codex|claude-code|openclaw>] [--scope <user|project>] [--target <path>]",
-      "  hellosearch doctor [--host <auto|codex|claude-code|openclaw>] [--scope <user|project>] [--target <path>]",
+      "  hellosearch install [--host <auto|claude-code|codex|agents|openclaw|all>] [--scope <user|project>] [--target <path>] [--force]",
+      "  hellosearch info    [--host <host>] [--scope <scope>] [--target <path>]",
+      "  hellosearch doctor  [--host <host>] [--scope <scope>] [--target <path>]",
+      "",
+      "Hosts:",
+      "  auto         Detect the most likely host from the workspace and home directory (default).",
+      "  claude-code  Install to .claude/skills (project) or ~/.claude/skills (user).",
+      "  codex        Install to .agents/skills (project) or ~/.agents/skills (user).",
+      "  agents       Same cross-vendor location as codex; also read by OpenClaw and Gemini CLI.",
+      "  openclaw     Install to <workspace>/skills (project) or ~/.openclaw/skills (user).",
+      "  all          Install to every host detected on this machine (install command only).",
     ].join("\n"),
   )
 }
@@ -64,11 +72,27 @@ async function main() {
   }
 
   if (command === "doctor") {
-    console.log(JSON.stringify(await runDoctor(options), null, 2))
+    const report = await runDoctor(options)
+    console.log(JSON.stringify(report, null, 2))
+    if (!report.validation.ok) {
+      process.exitCode = 1
+    }
     return
   }
 
   if (command === "install") {
+    if (options.host === "all") {
+      const results = await installSkillEverywhere({ force: options.force })
+      for (const result of results) {
+        if (result.status === "installed") {
+          console.log(`Installed hellosearch skill to: ${result.destination}`)
+        } else {
+          console.error(`Failed for ${result.destination}: ${result.error}`)
+          process.exitCode = 1
+        }
+      }
+      return
+    }
     const result = await installSkill(options)
     console.log(`Installed hellosearch skill to: ${result.destination}`)
     return

@@ -1,6 +1,4 @@
-**/__pycache__
-**/__pycache__/**
-**/*.pyc
-tests/
 node-tests/
 .github/
+_to_delete/
+REFACTOR_PLAN.md

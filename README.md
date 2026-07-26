@@ -1,148 +1,94 @@
 # HelloSearch
 
-Host-agnostic real-web search skill for structured query planning, source verification, and evidence-based answers using the native web tools already available in the current environment.
+A research discipline for AI agents — not a pipeline, not a backend. HelloSearch teaches your agent to size the effort to the question, search past the first convenient result, verify claims against sources instead of memory, and deliver answers with citations that hold up.
 
 [![npm version](https://img.shields.io/npm/v/hellosearch)](https://www.npmjs.com/package/hellosearch)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 
-[English](./README.md) · [简体中文](./README_CN.md)
+[English](./README.md) · [简体中文](./README_CN.md) · [Changelog](./CHANGELOG.md)
 
 ## Overview
 
-HelloSearch is a standalone skill package. It does not ship its own search backend, crawler service, or model API wrapper.
+- **Pure instructions.** The package contains a `SKILL.md` and three reference documents. No backend, no runtime scripts, no Python. Research is a judgment task, and judgment belongs to the model; code is reserved for what must be deterministic — here, only installation and validation.
+- **Host-agnostic by construction.** The skill follows the open [Agent Skills specification](https://agentskills.io/specification) and names capabilities, not tools. It works with whatever the host provides: web search, page fetching, browser control, site mapping, subagents.
+- **One package, many hosts.** The same files load in Claude Code, Claude.ai, OpenAI Codex, OpenClaw, Gemini CLI, Cursor, and other hosts that support Agent Skills. The npm installer writes the skill into the right directory for each host.
 
-Instead, it layers a disciplined search workflow on top of the live web capability your current host already provides:
+## What it changes
 
-- detect whether real web search is actually available
-- turn one vague request into structured search rounds and sub-queries
-- prefer official and primary sources
-- split mixed answer-plus-citation text when a host returns both together
-- normalize, dedupe, and rank the collected evidence
-- answer with explicit source discipline
+| Without the skill | With the skill |
+| --- | --- |
+| Answers built from search snippets | Decisive pages are opened and read before they support a claim |
+| First-page results taken at face value | Claims traced to primary sources; volatile facts need two independent sources |
+| "Latest" and "current" without dates | Relative time resolved to concrete dates, with retrieval dates on fast-moving facts |
+| The user's premise researched as stated | The premise itself verified first |
+| Every answer forced into one report template | Answer shape matches the question: direct answer, matrix, timeline, or report |
+| Confident wording over thin evidence | Confirmed facts, inferences, and open uncertainty kept distinguishable |
 
-### Best for
+## Install
 
-- verifying latest facts, news, releases, or pricing
-- checking official documentation, changelogs, or release notes
-- comparing products with source-backed evidence
-- mapping documentation sites before drilling into page-level details
-
-### Boundaries
-
-- it cannot create live web access where the host has none
-- it relies on the host's native search, fetch, open-page, or site-map tools
-- the included scripts help with planning, evidence handling, and installation, but they do not replace host-native web execution
-
-## Features
-
-- **Pure skill architecture**: no MCP server, plugin runtime, or extra backend dependency
-- **Runtime-aware routing**: inspect the current workspace and recommend the best native search path
-- **Richer planning output**: infer complexity, ambiguities, sub-queries, tool selection, execution order, fetch targets, and optional site-map targets
-- **Evidence extraction**: split trailing citation blocks and raw link lists out of mixed answer text
-- **Evidence normalization**: canonicalize URLs, remove tracking noise, dedupe, and rank sources
-- **Multi-host installer**: install into Codex, Claude Code, OpenClaw, or a custom target directory
-
-## Quick Start
-
-### Prerequisites
-
-- Node.js 18 or later
-- Python 3.11 or later for the helper scripts
-- A host environment that already exposes real web search or page-reading capability
-
-### Install from npm
+### From npm
 
 ```bash
 npm install -g hellosearch
-hellosearch install
+hellosearch install              # detect the most likely host and install
+hellosearch install --host all   # install for every host detected on this machine
 ```
 
-By default, the installer auto-detects the most likely host and resolves a preset skill directory.
+Host presets:
 
-Inspect the resolved target before installing:
+| `--host` | User scope | Project scope |
+| --- | --- | --- |
+| `claude-code` | `~/.claude/skills` | `.claude/skills` |
+| `codex` / `agents` | `~/.agents/skills` | `.agents/skills` |
+| `openclaw` | `~/.openclaw/skills` | `<workspace>/skills` |
+
+`~/.agents/skills` is the cross-vendor location also read by OpenClaw and Gemini CLI. Use `--scope project` for workspace installs, `--target <path>` for a custom directory, and `--force` to overwrite an existing copy.
+
+Inspect before installing, or verify afterwards:
 
 ```bash
-hellosearch info
-hellosearch doctor
+hellosearch info     # print the resolved install plan
+hellosearch doctor   # install plan plus package validation checks
 ```
 
-### Install for a specific host
+### Other routes
 
-```bash
-hellosearch install --host codex --scope user
-hellosearch install --host claude-code --scope user
-hellosearch install --host openclaw --scope project
-```
+- Via the skills CLI: `npx skills add hellowind777/hellosearch`
+- Manually: copy `SKILL.md`, `references/`, and `agents/` into any skills directory your host reads.
 
-Override the target directory when your environment uses a custom skill path:
+## Use
 
-```bash
-hellosearch install --target "/path/to/skills"
-```
+Once installed, the skill triggers on research-shaped requests without being named:
 
-### Use in prompts
+- `What are the current stable release and breaking changes for Bun's SQLite API? Use official sources.`
+- `Compare these three vector databases on pricing and license, with sources.`
+- `这条新闻是真的吗？帮我核实一下，给出处。`
+- `Map the docs site first, then find the current rate-limit rules.`
 
-After the skill is installed, invoke it explicitly in your prompt when you want stricter real-web verification.
+Name it explicitly (`use hellosearch to ...` / `用 hellosearch 查 ...`) when you want the discipline applied to a request that might not look like research.
 
-Examples:
-
-- `Use hellosearch to verify today's API pricing and cite the official source.`
-- `Use hellosearch to compare these three products and show the update date for each source.`
-- `Use hellosearch to map the docs site first, then find the current rate-limit page.`
-- `用 hellosearch 查官网，确认这个 SDK 当前的 breaking changes。`
-
-## Helper Commands
-
-These commands are mainly for local validation, customization, or extending the skill in this repository.
-
-| Command | Purpose |
-| --- | --- |
-| `hellosearch install [--host <host>] [--scope <scope>] [--target <path>] [--force]` | Install or overwrite the skill payload in a target skill directory. |
-| `hellosearch info [--host <host>] [--scope <scope>] [--target <path>]` | Print the resolved install plan. |
-| `hellosearch doctor [--host <host>] [--scope <scope>] [--target <path>]` | Print the install plan plus package-file checks. |
-| `python scripts/detect_runtime.py --json` | Inspect the current workspace and print routing hints. |
-| `python scripts/plan_search.py "<question>" --json` | Build a structured query plan with complexity, sub-queries, and execution order. |
-| `python scripts/extract_sources.py --input answer.md` | Split embedded citations out of mixed answer text. |
-| `python scripts/rank_sources.py "<question>" --input sources.json` | Normalize and rank collected sources. |
-| `python scripts/build_workflow.py "<question>"` | Combine runtime detection and search planning into one workflow bundle. |
-
-## How It Works
-
-```mermaid
-flowchart TD
-    A[User question] --> B[Detect available native web tools]
-    B --> C[Plan search rounds and sub-queries]
-    C --> D[Run host-native search and page reads]
-    D --> E[Extract, normalize, and rank evidence]
-    E --> F[Write source-backed answer]
-```
-
-### Workflow stages
-
-1. **Runtime detection**: infer the active environment and available capabilities.
-2. **Query planning**: rewrite the request into rounds, sub-queries, fetch targets, and optional site-map targets.
-3. **Evidence discipline**: prefer official pages, changelogs, announcements, and strong primary reporting.
-4. **Answer synthesis**: separate confirmed facts, inference, and unresolved uncertainty.
-
-## Repository Layout
+## Package layout
 
 | Path | Purpose |
 | --- | --- |
-| `SKILL.md` | Main skill instructions and trigger description. |
-| `agents/openai.yaml` | UI-facing metadata for hosts that read agent descriptors. |
-| `references/` | Routing and evidence reference material used by the skill. |
-| `scripts/` | Python helper scripts and the runtime implementation. |
-| `bin/hellosearch.mjs` | npm CLI entry point. |
-| `lib/install-skill.mjs` | Installer implementation and host-specific target resolution. |
-| `tests/` and `node-tests/` | Python and Node test coverage. |
+| `SKILL.md` | The skill: trigger description plus six research disciplines. |
+| `references/verification.md` | Source hierarchy, freshness rules, counter-evidence technique, citation audit. |
+| `references/scenarios.md` | Patterns for common single and composite research tasks. |
+| `references/delivery.md` | Answer shapes, citation presentation, uncertainty wording. |
+| `agents/openai.yaml` | Display metadata for hosts that read agent descriptors. |
+| `evals/` | Behavior scenarios and trigger test set. |
+| `bin/`, `lib/` | The npm installer and package validation. |
+| `node-tests/` | Tests for the installer and the package constraints. |
 
-## Local Validation
+## Quality
 
 ```bash
-npm run test
-npm run pack:dry
+npm test        # installer behavior and package constraints
+npm run doctor  # frontmatter, size, and structure validation
 ```
+
+`evals/evals.json` holds six behavior scenarios with verifiable expectations, each targeting a documented failure mode of unassisted research (answering from snippets, uneven comparisons, accepted false premises, undated claims, rumor presented as fact). `evals/triggers.json` holds a should-trigger / should-not-trigger set for tuning the description. Both follow the schema used by Anthropic's skill-creator workflow, so they can be run and graded with standard tooling.
 
 ## License
 
-This repository is licensed under the [Apache-2.0 License](./LICENSE).
+[Apache-2.0](./LICENSE)

@@ -1,7 +1,7 @@
 {
   "name": "hellosearch",
-  "version": "0.2.0",
-  "description": "基于当前环境原生搜索与页面读取能力的真实搜索 skill，用于最新信息核验、官网文档查证、来源对比与证据化整理。",
+  "version": "1.0.1",
+  "description": "Host-agnostic deep-research skill for AI agents: a pure-instruction methodology for planning, searching, verifying, and citing on the live web, with a multi-host installer.",
   "type": "module",
   "private": false,
   "bin": {
@@ -9,27 +9,29 @@
   },
   "files": [
     "SKILL.md",
+    "README_CN.md",
     "agents",
     "references",
-    "scripts",
+    "evals",
     "bin",
     "lib"
   ],
   "scripts": {
-    "test:python": "python -B -m unittest discover -s \"./tests\" -v",
-    "test:node": "node --test \"node-tests/**/*.test.mjs\"",
-    "test": "npm run test:node && npm run test:python",
+    "test": "node --test \"node-tests/**/*.test.mjs\"",
+    "doctor": "node bin/hellosearch.mjs doctor",
     "pack:dry": "npm pack --dry-run"
   },
   "keywords": [
     "skill",
-    "search",
-    "host-agnostic",
-    "web-research",
+    "agent-skills",
+    "research",
+    "deep-research",
+    "web-search",
     "fact-verification",
-    "evidence-synthesis",
-    "official-sources",
-    "workflow"
+    "citations",
+    "claude-code",
+    "codex",
+    "openclaw"
   ],
   "author": "hellowind",
   "license": "Apache-2.0",

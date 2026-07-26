@@ -1,0 +1,22 @@
+[
+  { "query": "我们下周要跟客户续约企业微信服务商的合同，帮我确认一下他们 API 调用配额现在是怎么收费的", "should_trigger": true },
+  { "query": "is the pgvector extension still actively maintained? we're betting our roadmap on it", "should_trigger": true },
+  { "query": "用 hellosearch 查一下 Tauri 2.x 的自动更新在 Windows 上有没有已知问题", "should_trigger": true },
+  { "query": "帮我调研一下现在做 RAG 评测的主流开源框架有哪些，各自的活跃度怎么样", "should_trigger": true },
+  { "query": "my boss says our biggest competitor just raised a Series B. can you confirm that and find the amount?", "should_trigger": true },
+  { "query": "把 FastAPI 从 0.100 升到最新版会有什么 breaking changes？查官方说明", "should_trigger": true },
+  { "query": "这篇文章说 Redis 前两年改了开源协议，是真的吗？它现在到底用什么协议", "should_trigger": true },
+  { "query": "I need a timeline of the major OpenSSL security advisories from the past year, with links to each", "should_trigger": true },
+  { "query": "对比一下 Supabase 和 Firebase 现在的免费额度，哪个更适合小项目，要有出处", "should_trigger": true },
+  { "query": "帮我把 Stripe 文档站里跟 webhook 重试相关的页面都找出来，总结现在的重试策略", "should_trigger": true },
+  { "query": "帮我写一个 Python 脚本，抓取指定网页的标题和正文保存成文本", "should_trigger": false },
+  { "query": "打开 https://github.com/vercel/next.js 看一下 README 里怎么介绍这个项目的", "should_trigger": false },
+  { "query": "解释一下二分查找为什么是 O(log n)，最好带个例子", "should_trigger": false },
+  { "query": "把我这份 sources.json 里的链接去重之后按域名排个序", "should_trigger": false },
+  { "query": "what does the acronym CRUD stand for in web development?", "should_trigger": false },
+  { "query": "帮我把这段英文的调研报告翻译成中文，保持原有结构", "should_trigger": false },
+  { "query": "search my codebase for all usages of the deprecated fetchData helper", "should_trigger": false },
+  { "query": "给我们产品的站内搜索设计一个排序算法，要考虑相关性和新鲜度", "should_trigger": false },
+  { "query": "上次你帮我整理的那份对比表，把格式改成 markdown 表格", "should_trigger": false },
+  { "query": "写一篇关于人工智能发展史的科普短文，凭你已有的知识写就行，不用查资料", "should_trigger": false }
+]

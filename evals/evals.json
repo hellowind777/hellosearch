@@ -1,0 +1,82 @@
+{
+  "skill_name": "hellosearch",
+  "evals": [
+    {
+      "id": 1,
+      "name": "current-price-check",
+      "prompt": "帮我查一下 GitHub Copilot 个人版现在的订阅价格，要官方数字。",
+      "expected_output": "以官方定价页为依据的准确价格，含币种、计费周期与查证日期，并附来源链接。",
+      "files": [],
+      "expectations": [
+        "The answer cites an official GitHub page as the source for pricing, not only third-party articles",
+        "Every price figure carries a currency and a billing period",
+        "The answer states a concrete date on which the price was checked",
+        "The answer opened and read the source page rather than quoting only search snippets"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "comparison-matrix",
+      "prompt": "Compare Playwright and Cypress for end-to-end testing: current stable version with release date, license, browser support, and pricing of any paid tiers. Cite your sources.",
+      "expected_output": "A comparison with the same fields collected for both tools, official sources cited per tool, unconfirmed fields marked as such, and a conclusion that follows from the collected evidence.",
+      "files": [],
+      "expectations": [
+        "The same set of fields is reported for both tools",
+        "Any field that could not be confirmed is explicitly marked, not silently omitted",
+        "Official documentation or release pages are cited for version and license claims",
+        "Version numbers include their release dates"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "false-premise-handling",
+      "prompt": "听说 SQLite 不支持并发写入，所以我们准备换掉它。帮我调研一下现在最适合替代它的嵌入式数据库是什么？",
+      "expected_output": "先独立核验前提（SQLite 的并发写入能力，包括 WAL 模式的实际行为），再基于核验结果作答；若前提不准确，应当指出并给出依据，而不是直接顺着前提推荐替代品。",
+      "files": [],
+      "expectations": [
+        "The answer examines whether the premise about SQLite concurrency is accurate before recommending alternatives",
+        "The premise assessment cites sources such as official SQLite documentation",
+        "The answer does not simply comply with the replacement request while leaving the premise unexamined"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "version-upgrade-check",
+      "prompt": "My project pins React 18. What breaking changes would affect me if I upgrade to the newest major version? Use official sources.",
+      "expected_output": "The newest major version identified with its release date from official channels, breaking changes relevant to a React 18 upgrade listed from the official upgrade guide or release notes, with stable and pre-release channels kept distinct.",
+      "files": [],
+      "expectations": [
+        "The newest major version is identified with an exact version number and release date",
+        "Breaking changes are sourced from official React release notes or upgrade guides",
+        "The answer distinguishes stable releases from pre-release or canary channels",
+        "Claims about specific behavior changes cite the page that documents them"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "event-timeline",
+      "prompt": "帮我梳理最近半年欧盟《人工智能法案》落地实施的关键节点，做成时间线，每一项标明日期和来源。",
+      "expected_output": "把“最近半年”解析为具体日期范围；按事件发生时间排序的时间线，每项带具体日期与来源；官方文件与媒体报道区分明确；未获官方确认的事项单独标注。",
+      "files": [],
+      "expectations": [
+        "The relative period is resolved to an explicit date range in the answer",
+        "Timeline entries are ordered by event date, not article publication date",
+        "Every entry carries a date and a source",
+        "Official documents and secondary reporting are distinguishable in the timeline"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "honest-uncertainty",
+      "prompt": "查一下 Valve 官方有没有公布过下一代 Steam Deck 的发布日期。如果没有官方消息，现在最可靠的信息是什么？",
+      "expected_output": "明确区分官方确认与传闻：若无官方发布日期，直接说明没有，再给出注明日期与来源的最可靠公开信息，不把传闻当作事实呈现。",
+      "files": [],
+      "expectations": [
+        "The answer states explicitly whether an official announcement exists",
+        "If no official date exists, the answer says so instead of presenting rumors as fact",
+        "Any non-official information is labeled with its source and date",
+        "The answer avoids calling information current or confirmed without a date behind it"
+      ]
+    }
+  ]
+}

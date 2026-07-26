@@ -1,4 +1,7 @@
-__pycache__/
-*.pyc
 node_modules/
 *.tgz
+_to_delete/
+
+# OS generated files
+.DS_Store
+Thumbs.db
